@@ -1,11 +1,14 @@
 import time
 import unittest
+import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+
 class LambdaAutomationSeleniumPython(unittest.TestCase):
+
     driver = None
 
     @classmethod
@@ -15,11 +18,26 @@ class LambdaAutomationSeleniumPython(unittest.TestCase):
         cls.driver.implicitly_wait(10)
         cls.driver.maximize_window()
 
+        options = webdriver.ChromeOptions()
+        options.browser_version = "122.0"
+        options.platform_name = "Windows 10"
+        lt_options = {};
+        lt_options["username"] = "madhav_vishwakarma";
+        lt_options["accessKey"] = "bA4K5UVO5sbZ62ys26v0ZuATYSLg5RYEG3yJecakdvfXXNBG1t";
+        lt_options["video"] = True;
+        lt_options["project"] = "Untitled";
+        lt_options["name"] = "DemoTest_001";
+        lt_options["selenium_version"] = "4.0.0";
+        lt_options["w3c"] = True;
+        lt_options["plugin"] = "python-python";
+        options.set_capability('LT:Options', lt_options);
+
+    @pytest.mark.timeout(20)
     def test_scenario1(self):
         """Test Scenario 1: Simple Form Demo"""
         # Step 1: Open the Selenium Playground
         self.driver.get("https://www.lambdatest.com/selenium-playground")
-        
+
         # Step 2: Click on "Simple Form Demo"
         demo_link = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.LINK_TEXT, "Simple Form Demo")))
         time.sleep(1.5)
@@ -48,6 +66,7 @@ class LambdaAutomationSeleniumPython(unittest.TestCase):
         my_msg_text = my_msg.text
         self.assertEqual(my_msg_text, welcome)
 
+    @pytest.mark.timeout(20)
     def test_scenario2(self):
         """Test Scenario 2: Drag & Drop Sliders"""
         self.driver.get("https://www.lambdatest.com/selenium-playground/")
@@ -59,9 +78,11 @@ class LambdaAutomationSeleniumPython(unittest.TestCase):
         self.driver.find_element(By.CSS_SELECTOR, ".sp__range-success > .sp__range").click()
         time.sleep(1)
         # Get the ID of the slider
-        id_set = self.driver.find_element(By.XPATH, '/html/body/div[1]/div/section[2]/div/div/div/div[2]/div[1]/div/output').id
+        id_set = self.driver.find_element(By.XPATH,
+                                          '/html/body/div[1]/div/section[2]/div/div/div/div[2]/div[1]/div/output').id
         print("ID:" + id_set)
 
+    @pytest.mark.timeout(20)
     def test_scenario3(self):
         """Test Scenario 3: Input Form Submit"""
         self.driver.get("https://www.lambdatest.com/selenium-playground/input-form-demo")
@@ -121,6 +142,7 @@ class LambdaAutomationSeleniumPython(unittest.TestCase):
         """Close the WebDriver after each test."""
         if cls.driver is not None:
             cls.driver.quit()
+
 
 if __name__ == "__main__":
     unittest.main()
